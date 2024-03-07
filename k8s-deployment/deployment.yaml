@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mani-demo
+  namespace: mani-demo
+spec:
+  selector:
+    matchLabels:
+      run: mani-demo
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: mani-demo
+    spec:
+      containers:
+      - name: mani-demo
+        image: 865653379834.dkr.ecr.ap-south-1.amazonaws.com/mani-demo:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
