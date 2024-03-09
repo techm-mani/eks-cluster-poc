@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+    
+    environment {
+        KUBECONFIG = credentials('mani-demo-eks-cluster')
+    }
+    
+    stages {
+        stage('Build') {
+            steps {
+                // Build your application (e.g., using Maven, Gradle, etc.)
+                sh 'mvn clean package'
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                // Deploy the application to Kubernetes
+                sh 'kubectl apply -f kubernetes/deployment.yaml'
+            }
+        }
+    }
+}
