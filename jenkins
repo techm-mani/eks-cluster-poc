@@ -8,17 +8,26 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                // Build your application (e.g., using Maven, Gradle, etc.)
                 sh 'cd application/'
-                sh 'docker build .'
+                sh 'docker build -t mani-demo .'
 
             }
+        } 
+
+        stage('Push to Container Registry') {
+            steps {
+                script {
+                    
+                    sh 'docker push 865653379834.dkr.ecr.ap-south-1.amazonaws.com/mani-demo:latest'
+                }
+            }
         }
+
         
         stage('Deploy') {
             steps {
                 // Deploy the application to Kubernetes
-                sh 'kubectl apply -f kubernetes/deployment.yaml'
+                sh 'kubectl apply -f k8s-deployment/deployment.yaml'
             }
         }
     }
